@@ -1,55 +1,45 @@
-# clackai-aipdf-
+# clackai-pdf-tool
 
-ClackAI PDF 智能处理工具
+Extract structured data from PDFs using pdfplumber + Anthropic Claude.
 
----
-
-## 30 秒了解这个项目
-
-| 维度 | 内容 |
-|------|------|
-| 项目类型 | AI/Agent 项目 |
-| 技术栈 | unknown |
-| 核心功能 | ClackAI PDF 智能处理工具 |
-| 适用场景 | 个人学习、原型验证、工具辅助 |
-
----
-
-## 30-Second Project Overview
-
-| Dimension | Content |
-|------|------|
-| Project Type | AI/Agent Project |
-| Tech Stack | unknown |
-| Core Function | ClackAI PDF 智能处理工具 |
-| Use Cases | Learning, prototyping, tool assistance |
-
----
-
-## 快速开始
+## Install
 
 ```bash
-# Python
-pip install -r requirements.txt && python app.py
-
-# Node.js
-npm install && npm start
+pip install -r requirements.txt
 ```
 
----
+Set your API key:
 
-## 项目结构
-```
-├── src/          # 源代码
-├── tests/        # 测试
-└── README.md     # 项目说明
+```bash
+export ANTHROPIC_API_KEY="sk-ant-..."
 ```
 
----
+## Usage
 
-## 许可证
-MIT License
+```bash
+# Extract structured data from a PDF
+python -m pdf_tool extract invoice.pdf
 
----
-*最后更新: 2026-05-23*
-*作者: 121212165*
+# Raw text only (no AI, no API key needed)
+python -m pdf_tool extract invoice.pdf --text-only
+
+# Custom extraction instruction
+python -m pdf_tool ask report.pdf "Extract all financial metrics as JSON"
+```
+
+## Output
+
+JSON with extracted fields — invoices get `vendor`, `line_items`, `total`; reports get `title`, `sections`, `key_metrics`.
+
+## Project Structure
+
+```
+pdf_tool/
+├── __init__.py
+├── __main__.py    # python -m pdf_tool support
+├── parser.py      # pdfplumber text/table extraction
+├── ai.py          # Anthropic structured extraction
+└── cli.py         # click CLI
+tests/
+└── test_parser.py # parser unit tests
+```
